@@ -10,11 +10,15 @@
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.4",
+    "electron-squirrel-startup": "^1.0.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.2",
     "vue-property-decorator": "^8.3.0",
@@ -22,6 +26,11 @@
     "vuex": "^3.1.2"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.49",
+    "@electron-forge/maker-deb": "^6.0.0-beta.49",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.49",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.49",
+    "@electron-forge/maker-zip": "^6.0.0-beta.49",
     "@types/jest": "^24.0.19",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
@@ -45,5 +54,32 @@
     "typescript": "~3.7.5",
     "vue-cli-plugin-electron-builder": "~1.4.5",
     "vue-template-compiler": "^2.6.11"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "asyncapi_studio"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
