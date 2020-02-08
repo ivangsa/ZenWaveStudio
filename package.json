@@ -11,7 +11,8 @@
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "start": "electron-forge start",
+    "start": "npm run electron:serve",
+    "forge-start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
