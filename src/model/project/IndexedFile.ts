@@ -1,23 +1,44 @@
 import fs from 'fs';
 import YAML from 'yaml';
+import { File } from './File';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const YAMLSourceMap = require('yaml-source-map');
 
 const sourceMap = new YAMLSourceMap();
 
-export class IndexedSourceFile {
+export class IndexedFile {
+  public file: File;
   private document: any;
-  public text: string;
+  private edited = false;
+  private text: string;
   public lines: string[];
   public originalText: string;
   public isDirty = false;
 
-  constructor(public filename: URL) {
-    this.text = this.originalText = fs.readFileSync(filename.toString(), 'utf8');
+  constructor(file: File) {
+    this.file = file;
+    this.text = this.originalText = file.contents || '';
     this.document = sourceMap.index(YAML.parseDocument(this.text, { keepCstNodes: true /* must specify this */ }), {
-      filename: filename /* optional */
+      filename: file.url /* optional */
     });
     this.lines = this.text.split('\n');
+  }
+
+  get contents() {
+    return this.text;
+  }
+
+  set contents(contents: string) {
+    this.edited = true;
+    this.text = contents;
+    this.lines = this.text.split('\n');
+  }
+
+  isEdited() {
+    if (this.edited) {
+      return this.text !== this.originalText;
+    }
+    return false;
   }
 
   lookup(path: string[]): FileSection {
@@ -46,5 +67,5 @@ export class FilePointer {
 }
 
 export function indexApi(filenames: URL[]) {
-  return filenames.map(filename => new IndexedSourceFile(filename));
+  return filenames.map(filename => new IndexedFile(filename));
 }

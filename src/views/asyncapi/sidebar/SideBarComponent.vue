@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <v-toolbar dense @click="toggleMiniDrawer">
-      <v-toolbar-title @click="toggleMiniDrawer">Title</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>fa-clock</v-icon>
-      </v-btn>
-    </v-toolbar>
-  </div>
+  <multipane layout="horizontal">
+    <ApiRefsComponent  class="overflow-y-auto" :style="{ height: '40%'}"/>
+    <multipane-resizer></multipane-resizer>
+    <ApiTreeComponent class="overflow-y-auto"  :style="{ height: '60%'}"/>
+  </multipane>
 </template>
 <script lang="ts">
-import { State, namespace } from 'vuex-class';
 import { Component, Vue } from 'vue-property-decorator';
-import { AsyncapiState } from '@/model/store/asyncapi/asyncapi.store';
-import { AsyncAPI } from '@/model/asyncapi/asyncapi';
+import ApiRefsComponent from './ApiRefsComponent.vue';
+import ApiTreeComponent from './ApiTreeComponent.vue';
+import { Multipane, MultipaneResizer } from '@/views/components/multipane';
 
-const AsyncapiStore = namespace('asyncapi');
-
-@Component
-export default class SideBarComponent extends Vue {
-  @AsyncapiStore.State miniDrawer?: boolean;
-  @AsyncapiStore.Mutation toggleMiniDrawer?: any;
-}
+@Component({
+  components: {
+    ApiRefsComponent,
+    ApiTreeComponent,
+    Multipane,
+    MultipaneResizer
+  }
+})
+export default class SideBarComponent extends Vue {}
 </script>

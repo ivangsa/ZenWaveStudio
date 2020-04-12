@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { plainToClass } from 'class-transformer';
 import parseApi from '@/lib/parser/dereference';
-import { AsyncAPI } from '@/model/asyncapi/asyncapi';
+import { AsyncAPI } from '@/model/specs/asyncapi/Asyncapi';
 import fs from 'fs';
 import YAML from 'yaml';
 // eslint-disable-next-line @typescript-eslint/no-var-requires

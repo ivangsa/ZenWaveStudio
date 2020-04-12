@@ -8,18 +8,10 @@
         <v-list>
           <v-list-item @click="$router.push({ name: 'Home' })">
             <v-list-item-action>
-              <v-icon>fa-clock</v-icon>
+              <v-icon>fa-home</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Home</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="$router.push({ name: 'Asyncapi' })">
-            <v-list-item-action>
-              <v-icon>mdi-settings</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Asyncapi</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="$router.push({ name: 'Settings' })">
@@ -32,7 +24,7 @@
           </v-list-item>
           <v-list-item @click="$router.push({ name: 'About' })">
             <v-list-item-action>
-              <v-icon>mdi-settings</v-icon>
+              <v-icon>mdi-about</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>About</v-list-item-title>
@@ -59,9 +51,23 @@
 html {
   font-size: 12px; // not working
 }
+body {
+  height: 970px;
+  overflow: hidden;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #03a9f4 !important;
+  outline: 1px solid #03a9f4 !important;
+}
 #footer {
   z-index: 10;
-  position: relative;
 }
 #main-container {
   padding-top: 0;

@@ -1,31 +1,30 @@
 /* eslint-disable */
-"use strict";
+'use strict';
 // ads $original$ref when dereferencing
 // customized from json-schema-ref-parser (see @ivangsa for customizations)
 const $RefParser = require('json-schema-ref-parser');
 const bundle = require('json-schema-ref-parser/lib/bundle');
 const normalizeArgs = require('json-schema-ref-parser/lib/normalize-args');
-const $Ref = require("json-schema-ref-parser/lib/ref");
-const Pointer = require("json-schema-ref-parser/lib/pointer");
-const { ono } = require("ono");
-const url = require("json-schema-ref-parser/lib/util/url");
+const $Ref = require('json-schema-ref-parser/lib/ref');
+const Pointer = require('json-schema-ref-parser/lib/pointer');
+const { ono } = require('ono');
+const url = require('json-schema-ref-parser/lib/util/url');
 
-module.exports = parseApi;
+module.exports = parseJsonSchema;
 
 // @ivangsa
-async function parseApi(path) {
+async function parseJsonSchema(path, options) {
   const parser = new $RefParser();
   const args = normalizeArgs([path]);
 
   try {
-      await parser.resolve(args.path, args.schema, args.options);
-      dereference(parser, args.options);
-      return Promise.resolve(parser);
+    await parser.resolve(args.path, args.schema, options);
+    dereference(parser, args.options);
+    return Promise.resolve(parser);
   } catch (err) {
-      return Promise.reject(err);
+    return Promise.reject(err);
   }
 }
-
 
 /**
  * Crawls the JSON schema, finds all JSON references, and dereferences them.
@@ -34,9 +33,9 @@ async function parseApi(path) {
  * @param {$RefParser} parser
  * @param {$RefParserOptions} options
  */
-function dereference (parser, options) {
+function dereference(parser, options) {
   // console.log('Dereferencing $ref pointers in %s', parser.$refs._root$Ref.path);
-  let dereferenced = crawl(parser.schema, parser.$refs._root$Ref.path, "#", [], parser.$refs, options);
+  let dereferenced = crawl(parser.schema, parser.$refs._root$Ref.path, '#', [], parser.$refs, options);
   parser.$refs.circular = dereferenced.circular;
   parser.schema = dereferenced.value;
 }
@@ -52,22 +51,21 @@ function dereference (parser, options) {
  * @param {$RefParserOptions} options
  * @returns {{value: object, circular: boolean}}
  */
-function crawl (obj, path, pathFromRoot, parents, $refs, options) {
+function crawl(obj, path, pathFromRoot, parents, $refs, options) {
   let dereferenced;
   let result = {
     value: obj,
     circular: false
   };
-  
-  if (obj && typeof obj === "object") {
+
+  if (obj && typeof obj === 'object') {
     parents.push(obj);
 
     if ($Ref.isAllowed$Ref(obj, options)) {
       dereferenced = dereference$Ref(obj, path, pathFromRoot, parents, $refs, options);
       result.circular = dereferenced.circular;
       result.value = dereferenced.value;
-    }
-    else {
+    } else {
       for (let key of Object.keys(obj)) {
         let keyPath = Pointer.join(path, key);
         let keyPathFromRoot = Pointer.join(pathFromRoot, key);
@@ -78,14 +76,12 @@ function crawl (obj, path, pathFromRoot, parents, $refs, options) {
           dereferenced = dereference$Ref(value, keyPath, keyPathFromRoot, parents, $refs, options);
           circular = dereferenced.circular;
           obj[key] = dereferenced.value;
-        }
-        else {
+        } else {
           if (parents.indexOf(value) === -1) {
             dereferenced = crawl(value, keyPath, keyPathFromRoot, parents, $refs, options);
             circular = dereferenced.circular;
             obj[key] = dereferenced.value;
-          }
-          else {
+          } else {
             circular = foundCircularReference(keyPath, $refs, options);
           }
         }
@@ -112,7 +108,7 @@ function crawl (obj, path, pathFromRoot, parents, $refs, options) {
  * @param {$RefParserOptions} options
  * @returns {{value: object, circular: boolean}}
  */
-function dereference$Ref ($ref, path, pathFromRoot, parents, $refs, options) {
+function dereference$Ref($ref, path, pathFromRoot, parents, $refs, options) {
   // console.log('Dereferencing $ref pointer "%s" at %s', $ref.$ref, path);
 
   let $refPath = url.resolve(path, $ref.$ref);
@@ -134,20 +130,20 @@ function dereference$Ref ($ref, path, pathFromRoot, parents, $refs, options) {
     dereferencedValue = dereferenced.value;
 
     // @ivangsa: keep original $ref pointer
-    if(!dereferencedValue.original$ref) {
+    if (!dereferencedValue.original$ref) {
       Object.defineProperty(dereferencedValue, 'original$ref', {
         value: $ref.$ref,
         writable: true, //If its false can't modify value using equal symbol
         enumerable: true, // If its false can't able to get value in Object.keys and for in loop
         configurable: false //if its false, can't able to modify value using defineproperty while writable in false
-      })
+      });
       // console.log('originalRef', dereferencedValue.original$ref)
-    }else {
+    } else {
       // console.log($ref.$ref, dereferencedValue.original$ref)
     }
   }
 
-  if (circular && !directCircular && options.dereference.circular === "ignore") {
+  if (circular && !directCircular && options.dereference.circular === 'ignore') {
     // The user has chosen to "ignore" circular references, so don't change the value
     dereferencedValue = $ref;
   }
@@ -173,7 +169,7 @@ function dereference$Ref ($ref, path, pathFromRoot, parents, $refs, options) {
  * @param {$RefParserOptions} options
  * @returns {boolean} - always returns true, to indicate that a circular reference was found
  */
-function foundCircularReference (keyPath, $refs, options) {
+function foundCircularReference(keyPath, $refs, options) {
   $refs.circular = true;
   if (!options.dereference.circular) {
     throw ono.reference(`Circular $ref pointer found at ${keyPath}`);

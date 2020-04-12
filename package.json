@@ -1,5 +1,5 @@
 {
-  "name": "asyncapi-studio",
+  "name": "zenwave-studio",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,12 +19,18 @@
   "main": "background.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
+    "@stoplight/yaml": "^3.5.2",
+    "@types/mkdirp": "^1.0.0",
+    "@types/rimraf": "^3.0.0",
     "@types/yaml": "^1.2.0",
     "class-transformer": "^0.2.3",
     "core-js": "^3.6.4",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^5.1.1",
     "json-schema-ref-parser": "^7.1.3",
     "jsonpath-plus": "^3.0.0",
+    "mkdirp": "^1.0.4",
+    "rimraf": "^3.0.2",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.2",
@@ -33,8 +39,8 @@
     "vuelidate": "^0.7.5",
     "vuetify": "^2.1.0",
     "vuex": "^3.1.2",
-    "vuex-class": "^0.3.2",
-    "vuex-class-component": "^2.2.1",
+    "vuex-class-component": "2.2.1",
+    "vuex-electron": "^1.0.3",
     "yaml": "^1.7.2",
     "yaml-source-map": "^2.1.1"
   },

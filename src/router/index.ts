@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
 import Settings from '@/views/settings/Settings.vue';
 import About from '@/views/about/About.vue';
-import { routes as AsyncapiRotes } from './AsyncapiRoutes';
+import { routes as ProjectRoutes } from './ProjectRoutes';
 
 Vue.use(VueRouter);
 
@@ -13,7 +13,7 @@ const routes = [
     name: 'Home',
     component: Home
   },
-  ...AsyncapiRotes,
+  ...ProjectRoutes,
   {
     path: '/settings',
     name: 'Settings',
