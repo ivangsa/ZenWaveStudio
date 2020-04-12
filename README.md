@@ -1,29 +1,25 @@
-# asyncapi-studio
+# ZenWave Studio
+
+Api First modeling editor for openapi and asyncapi
+
+...very much work in progress...
 
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
-npm run serve
+npm start
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## First Working prototype
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+![ZenWave Studio](ZenWaveStudio-screenshot.png 'ZenWave Studio: First Working prototype')
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
